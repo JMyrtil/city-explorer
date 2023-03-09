@@ -115,7 +115,7 @@ class App extends React.Component {
           <li>{this.state.stateInfo.lon}</li>
           <img src={mapUrl} alt='map'></img>
         </ul>
-        {/* <Movie movieData={this.state.movieData} /> */}
+        <Movie movieInfo={this.state.movieInfo} />
       </>
     );
   }
