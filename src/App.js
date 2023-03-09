@@ -1,8 +1,8 @@
 import React from 'react';
 import axios from 'axios';
 import Weather from './Weather';
+// import Movie from './Movie';
 import './App.css';
-import { Next } from 'react-bootstrap/esm/PageItem';
 
 class App extends React.Component {
   constructor(props) {
@@ -11,20 +11,21 @@ class App extends React.Component {
       stateData: '',
       stateInfo: {},
       city_name: '',
-      weatherData: []
+      weatherData: [],
+      displayMovie: '',
+      movieInfo: []
     }
   }
 
   handleWeather = async () => {
-    try {
-      let weatherData = await axios.get(`https://api.weatherbit.io/v2.0/forecast/daily?lat=${this.state.stateInfo.lat}&lon=${this.state.stateInfo.lon}&key=f12d341b0646483cb657f5a82ed15911&units=I&days=3`);
-      this.setState({
-        weatherData: weatherData.data
-      })
-      console.log(weatherData.data)
-    } catch (error) {
-      Next(error);
-    }
+
+    let weatherData = await axios.get(`${process.env.REACT_APP_SERVER}/city?lat=${this.state.stateInfo.lat}&lon=${this.state.stateInfo.lon}`);
+    this.setState({
+      weatherData: weatherData.data
+    }, this.getMovie)
+    // console.log(weatherData.data)
+
+
   }
 
   weatherInput = (e) => {
@@ -37,7 +38,6 @@ class App extends React.Component {
     this.setState({
       stateData: e.target.value
     });
-
   }
 
   // mapHandler = (e) => {
@@ -54,6 +54,21 @@ class App extends React.Component {
       stateInfo: location.data[0]
     }, this.handleWeather);
     // console.log(location);
+  }
+
+  getMovie = async () => {
+    let movieData = await axios.get(`${process.env.REACT_APP_SERVER}/movies?search=${this.state.stateData}`)
+    this.setState({
+      movieInfo: movieData.data
+    })
+    console.log(movieData);
+  }
+
+  handleMovies = (e) => {
+    this.setState({
+      displayMovie: e.target.value
+    });
+
   }
 
 
@@ -85,6 +100,7 @@ class App extends React.Component {
             <input type="text"
               onChange={this.locationHandler}
               onInput={this.weatherInput}
+              // onDisplay={this.handleMovies}
             ></input>
           </label>
           <button
@@ -99,6 +115,7 @@ class App extends React.Component {
           <li>{this.state.stateInfo.lon}</li>
           <img src={mapUrl} alt='map'></img>
         </ul>
+        {/* <Movie/> */}
       </>
     );
   }
