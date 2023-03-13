@@ -1,7 +1,7 @@
 import React from 'react';
 import axios from 'axios';
 import Weather from './Weather';
-// import Movie from './Movie';
+import Movie from './Movie';
 import './App.css';
 
 class App extends React.Component {
@@ -23,7 +23,7 @@ class App extends React.Component {
     this.setState({
       weatherData: weatherData.data
     }, this.getMovie)
-    // console.log(weatherData.data)
+    console.log(weatherData.data)
 
 
   }
@@ -61,7 +61,7 @@ class App extends React.Component {
     this.setState({
       movieInfo: movieData.data
     })
-    console.log(movieData);
+    console.log(movieData.data);
   }
 
   handleMovies = (e) => {
@@ -99,13 +99,13 @@ class App extends React.Component {
           <label>City Name
             <input type="text"
               onChange={this.locationHandler}
-              onInput={this.weatherInput}
-              // onDisplay={this.handleMovies}
+            // onInput={this.weatherInput}
+            // onDisplay={this.handleMovies}
             ></input>
           </label>
           <button
             onClick={this.eventLocation}
-            onSubmit={this.handleWeather}
+          // onSubmit={this.handleWeather}
           >Explore</button>
         </form>
         <ul>
@@ -115,7 +115,7 @@ class App extends React.Component {
           <li>{this.state.stateInfo.lon}</li>
           <img src={mapUrl} alt='map'></img>
         </ul>
-        {/* <Movie/> */}
+        <Movie movieInfo={this.state.movieInfo} />
       </>
     );
   }
